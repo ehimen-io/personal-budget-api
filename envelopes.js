@@ -13,9 +13,16 @@ function envelopeChecker(req, res, next){
     }
 }
 
+//GET request for all envelopes
 envelopeRouter.get('/', envelopeChecker, (req, res, next)=> {
     res.status(201).send(envelopes);
 })
+
+//GET request to receive total budget
+envelopeRouter.get('/total-budget', envelopeChecker, (req, res, next)=>{
+    res.status(201).send(envelopes.totalBudget.toString());
+})
+
 
 
 
