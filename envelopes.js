@@ -77,6 +77,27 @@ envelopeRouter.post('/', (req, res, next)=> {
     next();
 }, updateEnvelopes)
 
+//POST request to transfer money between envelopes
+envelopeRouter.post('/transfer', envelopeChecker, (req, res, next)=> {
+    const from = Number(req.query.from);
+    const to = Number(req.query.to);
+    const amount = Number(req.query.amount);
+
+    if(envelopes[from] && envelopes[to]){
+        if(envelopes[from].amount >= amount){
+            envelopes[from].amount -= amount;
+            envelopes[to].amount += amount;
+            res.send(envelopes);
+        }else{
+            res.status(400).send(`Not enough money in ${envelopes[from].name} envelope to complete the transfer`);
+        }
+    }else{
+        res.status(400).send("Invalid Envelopes");
+    }
+
+    next();
+}, updateEnvelopes)
+
 // PUT request to update an envelope
 envelopeRouter.put('/:id', envelopeChecker, (req, res, next)=>{
     req.envelopeObject.amount = req.query.amount;
