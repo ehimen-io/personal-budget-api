@@ -1,14 +1,19 @@
 const express = require('express');
 const envelopeRouter = express.Router();
 
-const envelopes = {
-    totalBudget: 0
-};
+const envelopes = [];
+let totalBudget = 0;
 
 function envelopeChecker(req, res, next){
-    if(envelopes.totalBudget === 0){
+    if(totalBudget === 0){
         res.status(401).send("No envelope created")
     }else{
+        next();
+    }
+}
+function updateTotalBudget(req, res, next){
+    if(req.method == "POST"){
+        totalBudget += parseInt(req.body.Amount);
         next();
     }
 }
@@ -20,18 +25,18 @@ envelopeRouter.get('/', envelopeChecker, (req, res, next)=> {
 
 //GET request to receive total budget
 envelopeRouter.get('/total-budget', envelopeChecker, (req, res, next)=>{
-    res.send(envelopes.totalBudget.toString());
+    res.send(totalBudget.toString());
 })
 
 //POST request to create an envelope
-envelopeRouter.post('/', (req, res, next)=> {
-    const envelopeName = req.body.Name;
-    const envelopeAmount = parseInt(req.body.Amount);
-    envelopes.totalBudget += envelopeAmount
-
-    envelopes[envelopeName] = envelopeAmount;
+envelopeRouter.post('/',updateTotalBudget, (req, res, next)=> {
+    let newEnvelope = req.body;
+    newEnvelope.amount = parseInt(newEnvelope.amount);
+    newEnvelope['id'] = envelopes.length + 1;
+    envelopes.push(newEnvelope);
     res.status(201).send(envelopes);
 })
+
 
 
 
