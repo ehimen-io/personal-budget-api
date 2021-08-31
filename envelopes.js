@@ -29,6 +29,23 @@ envelopeRouter.param('id', (req, res, next, id)=> {
     }
 })
 
+envelopeRouter.param('name', (req, res, next, name)=> {
+    let envelopeName = name;
+    let found = false;
+    for(let i = 0; i<envelopes.length; i++){
+        if(envelopes[i].name == envelopeName){
+            req.envelopeObject = envelopes[i];
+            found = true;
+            break;
+        }
+    }
+    if(found){
+        next();
+    }else{
+        res.status(404).send("Envelope not found");
+    }
+})
+
 //GET request for all envelopes
 envelopeRouter.get('/', envelopeChecker, (req, res, next)=> {
     res.send(envelopes);
@@ -37,6 +54,11 @@ envelopeRouter.get('/', envelopeChecker, (req, res, next)=> {
 //GET request to receive total budget
 envelopeRouter.get('/total-budget', envelopeChecker, (req, res, next)=>{
     res.send(totalBudget.toString());
+})
+
+//GET request to retrieve a specific envelope
+envelopeRouter.get('/:name', envelopeChecker, (req, res, next)=> {
+    res.send(req.envelopeObject);
 })
 
 //POST request to create an envelope
