@@ -31,11 +31,18 @@ envelopeRouter.get('/total-budget', envelopeChecker, (req, res, next)=>{
 //POST request to create an envelope
 envelopeRouter.post('/',updateTotalBudget, (req, res, next)=> {
     let newEnvelope = req.body;
+    for(let i = 0; i< envelopes.length; i++){
+        if(envelopes[i].name === newEnvelope.name){
+            return res.status(400).send("Envelope already exists");
+        }
+    }
     newEnvelope.amount = parseInt(newEnvelope.amount);
     newEnvelope['id'] = envelopes.length + 1;
     envelopes.push(newEnvelope);
     res.status(201).send(envelopes);
 })
+
+// PUT request to update t
 
 
 
