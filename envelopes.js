@@ -11,10 +11,11 @@ function envelopeChecker(req, res, next){
         next();
     }
 }
-function updateTotalBudget(req, res, next){
+function updateEnvelopes(req, res, next){
     totalBudget = 0;
     for(let i = 0; i< envelopes.length; i++){
         totalBudget += envelopes[i].amount;
+        envelopes[i].id = i;
     }
 }
 
@@ -71,10 +72,10 @@ envelopeRouter.post('/', (req, res, next)=> {
     }
     newEnvelope.amount = parseInt(newEnvelope.amount);
     newEnvelope['id'] = envelopes.length;
-    envelopes.push(newEnvelope);
+    envelopes[newEnvelope.id] = newEnvelope;
     res.status(201).send(envelopes);
     next();
-}, updateTotalBudget)
+}, updateEnvelopes)
 
 // PUT request to update an envelope
 envelopeRouter.put('/:id', envelopeChecker, (req, res, next)=>{
@@ -84,10 +85,15 @@ envelopeRouter.put('/:id', envelopeChecker, (req, res, next)=>{
 
     res.status(201).send(envelopes);
     next();
-}, updateTotalBudget)
+}, updateEnvelopes)
 
 
-
+//DELETE request to delete an envelope by id
+envelopeRouter.delete('/:id', envelopeChecker, (req, res, next)=>{
+    envelopes.splice(envelopes.indexOf(req.envelopeObject), 1);
+    res.send(envelopes);
+    next();
+}, updateEnvelopes)
 
 
 
