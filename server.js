@@ -1,12 +1,11 @@
 const express = require('express');
 const app = express();
+const cors = require('cors');
+const envelopeRouter = require('./envelopes');
 
-//Testing Get functionality
-const sayHello = 'Hello World';
-app.get('/say-hello', (req, res, next) => {
-    console.log(sayHello);
-})
-
+//Global middleware
+app.use(cors());
+app.use('/envelopes', envelopeRouter);
 
 //Starts the server
 const PORT = 3000;
