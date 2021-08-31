@@ -12,11 +12,22 @@ function envelopeChecker(req, res, next){
     }
 }
 function updateTotalBudget(req, res, next){
-    if(req.method == "POST"){
-        totalBudget += parseInt(req.body.Amount);
-        next();
+    totalBudget = 0;
+    for(let i = 0; i< envelopes.length; i++){
+        totalBudget += envelopes[i].amount;
     }
 }
+
+envelopeRouter.param('id', (req, res, next, id)=> {
+    let envelopeId = Number(id);
+    if(envelopes[envelopeId]){
+        req.envelopeId = envelopeId;
+        req.envelopeObject = envelopes[envelopeId];
+        next();
+    }else{
+        res.status(400).send("Envelope Id not valid");
+    }
+})
 
 //GET request for all envelopes
 envelopeRouter.get('/', envelopeChecker, (req, res, next)=> {
@@ -29,7 +40,7 @@ envelopeRouter.get('/total-budget', envelopeChecker, (req, res, next)=>{
 })
 
 //POST request to create an envelope
-envelopeRouter.post('/',updateTotalBudget, (req, res, next)=> {
+envelopeRouter.post('/', (req, res, next)=> {
     let newEnvelope = req.body;
     for(let i = 0; i< envelopes.length; i++){
         if(envelopes[i].name === newEnvelope.name){
@@ -37,12 +48,22 @@ envelopeRouter.post('/',updateTotalBudget, (req, res, next)=> {
         }
     }
     newEnvelope.amount = parseInt(newEnvelope.amount);
-    newEnvelope['id'] = envelopes.length + 1;
+    newEnvelope['id'] = envelopes.length;
     envelopes.push(newEnvelope);
     res.status(201).send(envelopes);
-})
+    next();
+}, updateTotalBudget)
 
-// PUT request to update t
+// PUT request to update an envelope
+envelopeRouter.put('/:id', envelopeChecker, (req, res, next)=>{
+    req.envelopeObject.amount = req.query.amount;
+    req.envelopeObject.name = req.query.name;
+    envelopes[req.envelopeId] = req.envelopeObject;
+
+    res.status(201).send(envelopes);
+    next();
+}, updateTotalBudget)
+
 
 
 
