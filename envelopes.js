@@ -15,14 +15,23 @@ function envelopeChecker(req, res, next){
 
 //GET request for all envelopes
 envelopeRouter.get('/', envelopeChecker, (req, res, next)=> {
-    res.status(201).send(envelopes);
+    res.send(envelopes);
 })
 
 //GET request to receive total budget
 envelopeRouter.get('/total-budget', envelopeChecker, (req, res, next)=>{
-    res.status(201).send(envelopes.totalBudget.toString());
+    res.send(envelopes.totalBudget.toString());
 })
 
+//POST request to create an envelope
+envelopeRouter.post('/', (req, res, next)=> {
+    const envelopeName = req.body.Name;
+    const envelopeAmount = parseInt(req.body.Amount);
+    envelopes.totalBudget += envelopeAmount
+
+    envelopes[envelopeName] = envelopeAmount;
+    res.status(201).send(envelopes);
+})
 
 
 
