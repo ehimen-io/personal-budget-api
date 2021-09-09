@@ -11,7 +11,7 @@ usersRouter.get('/', (req, res, next)=>{
             if(error){
                 throw error;
             }
-            res.status(200).json(results.rows);
+            res.json(results.rows);
         }
     )
 })
@@ -24,7 +24,7 @@ usersRouter.get('/:id', (req, res, next)=> {
             if(error){
                 throw error;
             }
-            res.status(200).json(results.rows);
+            res.json(results.rows);
         }
     )
 })
@@ -38,7 +38,7 @@ usersRouter.post('/', (req, res, next)=> {
             if(error){
                 throw error;
             }
-            res.status(200).send(`User Created`);
+            res.send(`User Created`);
         }
     )
 })
@@ -52,11 +52,22 @@ usersRouter.put('/:id', (req, res, next) => {
             if(error){
                 throw error;
             }
-            res.status(200).send(`User Updated`);
+            res.send(`User Updated`);
         }
     )
 })
 
-
+//Delete a user by id
+usersRouter.delete('/:id', (req, res, next)=> {
+    pool.query(
+        `delete from users where id = $1`, [req.params.id],
+        (error, results) => {
+            if(error){
+                throw error;
+            }
+            res.send(`User Deleted`);
+        }
+    )
+})
 
 module.exports = usersRouter;
