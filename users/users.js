@@ -2,10 +2,11 @@ const express = require('express');
 const usersRouter = express.Router();
 const pool = require('../db/db.js');
 
+
 //Get Request handler to retreive all users
 usersRouter.get('/', (req, res, next)=>{
     pool.query(
-        'select * from users order by id asc',
+        'select fname,lname from users order by id asc;',
         (error, results) => {
             if(error){
                 throw error;
@@ -18,7 +19,7 @@ usersRouter.get('/', (req, res, next)=>{
 //GET request handler to retrieve a single user by id
 usersRouter.get('/:id', (req, res, next)=> {
     pool.query(
-        `select * from users where id = $1;`,[req.params.id],
+        `select fname,lname from users where id = $1;`,[req.params.id],
         (error, results) => {
             if(error){
                 throw error;
@@ -28,19 +29,20 @@ usersRouter.get('/:id', (req, res, next)=> {
     )
 })
 
-//Post request handler to retreive user by id
+//Post request handler to create a new
 usersRouter.post('/', (req, res, next)=> {
-    const {fname, lname, id} = req.body;
+    const {fname, lname} = req.body;
     pool.query(
-        `insert into users(fname,lname,id) values($1,$2,$3)`,[fname,lname,id],
+        `insert into users(fname,lname) values($1,$2);`,[fname,lname],
         (error, results) => {
             if(error){
                 throw error;
             }
-            res.status(200).send(`User added with ID: ${id}`);
+            res.status(200).send(results.rows);
         }
     )
 })
+
 
 
 
