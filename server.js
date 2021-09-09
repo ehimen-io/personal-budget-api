@@ -1,7 +1,9 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
+
 const envelopeRouter = require('./envelopes/envelopes');
+const usersRouter = require('./users/users');
 const bodyParser = require('body-parser');
 
 
@@ -15,6 +17,7 @@ app.use(
 )
 
 app.use('/envelopes', envelopeRouter);
+app.use('/users', usersRouter);
 
 //Starts the server
 const PORT = 5000;
