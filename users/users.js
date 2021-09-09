@@ -9,9 +9,10 @@ usersRouter.get('/', (req, res, next)=>{
         'select fname,lname from users order by id asc;',
         (error, results) => {
             if(error){
-                throw error;
+                res.status(400).send(error.detail);
+            }else{
+                res.json(results.rows);
             }
-            res.json(results.rows);
         }
     )
 })
@@ -22,23 +23,27 @@ usersRouter.get('/:id', (req, res, next)=> {
         `select fname,lname from users where id = $1;`,[req.params.id],
         (error, results) => {
             if(error){
-                throw error;
+                res.status(400).send(error.detail);
+            }else{
+                res.json(results.rows);
             }
-            res.json(results.rows);
+            
         }
     )
 })
 
-//Post request handler to create a new
+//Post request handler to create a new user
 usersRouter.post('/', (req, res, next)=> {
     const {fname, lname} = req.body;
     pool.query(
         `insert into users(fname,lname) values($1,$2);`,[fname,lname],
         (error, results) => {
             if(error){
-                throw error;
+                res.status(400).send(error.detail)
+            }else{
+                res.send(`User Created`);
             }
-            res.send(`User Created`);
+            
         }
     )
 })
@@ -50,9 +55,11 @@ usersRouter.put('/:id', (req, res, next) => {
         `update users set fname = $1, lname = $2 where id = $3 `,[fname,lname, req.params.id],
         (error, results) => {
             if(error){
-                throw error;
+                res.status(400).send(error.detail);
+            }else{
+                res.send(`User Updated`);
             }
-            res.send(`User Updated`);
+            
         }
     )
 })
@@ -63,9 +70,10 @@ usersRouter.delete('/:id', (req, res, next)=> {
         `delete from users where id = $1`, [req.params.id],
         (error, results) => {
             if(error){
-                throw error;
-            }
-            res.send(`User Deleted`);
+                res.status(400).send(error.detail);
+            }else{
+                res.send(`User Deleted`);
+            } 
         }
     )
 })
