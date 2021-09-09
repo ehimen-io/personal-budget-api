@@ -50,7 +50,7 @@ usersRouter.post('/', (req, res, next)=> {
 
 //PUT request handler to update an existing user
 usersRouter.put('/:id', (req, res, next) => {
-    const {fname, lname} = req.body;
+    const {fname, lname} = req.query;
     pool.query(
         `update users set fname = $1, lname = $2 where id = $3 `,[fname,lname, req.params.id],
         (error, results) => {

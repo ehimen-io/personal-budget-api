@@ -53,7 +53,7 @@ envelopeRouter.post('/', (req, res, next)=> {
 
 //PUT request handler to update an existing envelope
 envelopeRouter.put('/:id', (req, res, next) => {
-    const {name, budget} = req.body;
+    const {name, budget} = req.query;
     pool.query(
         `update envelopes set name = $1, budget = $2 where id = $3 `,[name,budget, req.params.id],
         (error, results) => {
@@ -80,6 +80,11 @@ envelopeRouter.delete('/:id', (req, res, next)=> {
             
         }
     )
+})
+
+// Get Request handler to get envelopes by their user_id
+envelopeRouter.get('/userEnvelopes',(req, res, next) => {
+    const { user_id } = req.query;
 })
 
 
