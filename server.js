@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-const envelopeRouter = require('./envelopes');
+const envelopeRouter = require('./envelopes/envelopes');
 const bodyParser = require('body-parser');
 
 
@@ -11,7 +11,7 @@ app.use(bodyParser.json());
 app.use('/envelopes', envelopeRouter);
 
 //Starts the server
-const PORT = 5500;
+const PORT = 5000;
 app.listen(PORT, ()=> {
     console.log(`Server is listening on port ${PORT}`);
 })
