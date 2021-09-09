@@ -38,11 +38,24 @@ usersRouter.post('/', (req, res, next)=> {
             if(error){
                 throw error;
             }
-            res.status(200).send(results.rows);
+            res.status(200).send(`User Created`);
         }
     )
 })
 
+//PUT request handler to update an existing user
+usersRouter.put('/:id', (req, res, next) => {
+    const {fname, lname} = req.body;
+    pool.query(
+        `update users set fname = $1, lname = $2 where id = $3 `,[fname,lname, req.params.id],
+        (error, results) => {
+            if(error){
+                throw error;
+            }
+            res.status(200).send(`User Updated`);
+        }
+    )
+})
 
 
 
