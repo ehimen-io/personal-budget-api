@@ -4,7 +4,8 @@ const envelopeRouter = express.Router();
 const pool = require('../db/db.js')
 
 const transactionsRouter = require('./transactions/transactions');
-envelopeRouter.use('/transaction', transactionsRouter);
+envelopeRouter.use('/transactions', transactionsRouter);
+
 
 
 module.exports = envelopeRouter;
