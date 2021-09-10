@@ -1,7 +1,7 @@
 const express = require('express');
 const app = express();
 const cors = require('cors');
-
+const pathToSwaggerUI = require('swagger-ui-dist').absolutePath();
 
 const envelopeRouter = require('./envelopes/envelopes');
 const usersRouter = require('./users/users');
@@ -16,6 +16,7 @@ app.use(
         extended: true
     })
 )
+app.use(express.static(pathToSwaggerUI));
 
 app.use('/envelopes', envelopeRouter);
 app.use('/users', usersRouter);
