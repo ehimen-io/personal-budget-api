@@ -82,10 +82,5 @@ envelopeRouter.delete('/:id', (req, res, next)=> {
     )
 })
 
-// Get Request handler to get envelopes by their user_id
-envelopeRouter.get('/userEnvelopes',(req, res, next) => {
-    const { user_id } = req.query;
-})
-
 
 module.exports = envelopeRouter;
