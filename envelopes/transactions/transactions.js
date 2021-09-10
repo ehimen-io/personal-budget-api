@@ -36,8 +36,9 @@ transactionsRouter.get('/:id', (req, res, next)=> {
 //POST request handler to create a new transaction
 transactionsRouter.post('/', (req, res, next)=> {
     const {sender_id, receiver_id, amount} = req.body;
+    const date = Date.now();
     pool.query(
-        `insert into transactions(sender_id, receiver_id, amount) values ($1, $2, $3);`, [sender_id, receiver_id, amount],
+        `insert into transactions(sender_id, receiver_id, amount, date) values ($1, $2, $3, (to_timestamp($4 / 1000.0)));`, [sender_id, receiver_id, amount, date],
         (error, results) => {
             if(error){
                 res.status(400).send(error.detail);
