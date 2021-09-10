@@ -9,7 +9,7 @@ envelopeRouter.use('/transactions', transactionsRouter);
 //Get Request handler to retreive all envelopes
 envelopeRouter.get('/', (req, res, next)=>{
     pool.query(
-        'select name, budget, user_id from envelopes order by id asc;',
+        'select name, budget, user_id from envelopes order by id asc limit 10;',
         (error, results) => {
             if(error){
                 res.status(400).send(error.detail);

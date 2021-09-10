@@ -7,7 +7,7 @@ const pool = require('../../db/db.js')
 //Get Request handler to retrieve all transactions
 transactionsRouter.get('/', (req, res, next)=> {
     pool.query(
-        'select sender_id, receiver_id, amount from transactions order by id asc;',
+        'select sender_id, receiver_id, amount from transactions order by id asc limit 10;',
         (error, results) => {
             if (error){
                 res.status(400).send(error.detail);

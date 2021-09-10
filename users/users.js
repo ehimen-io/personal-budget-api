@@ -6,7 +6,7 @@ const pool = require('../db/db.js');
 //Get Request handler to retreive all users
 usersRouter.get('/', (req, res, next)=>{
     pool.query(
-        'select fname,lname from users order by id asc;',
+        'select fname,lname from users order by id asc limit 10;',
         (error, results) => {
             if(error){
                 res.status(400).send(error.detail);
