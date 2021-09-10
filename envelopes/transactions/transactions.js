@@ -42,7 +42,16 @@ transactionsRouter.post('/', (req, res, next)=> {
             if(error){
                 res.status(400).send(error.detail);
             }else{
-                res.send(`Transaction Created`);
+                pool.query(
+                    'call update_envelopes($1, $2, $3);', [sender_id, receiver_id, amount],
+                    (error, results) => {
+                        if(error){
+                            res.status(400).send(error.detail);
+                        }else{
+                            res.send('Transaction executed');
+                        }
+                    }
+                )
             }
         }
     )
