@@ -3,10 +3,12 @@ const app = express();
 const cors = require('cors');
 const pathToSwaggerUI = require('swagger-ui-dist').absolutePath();
 
+
 const envelopeRouter = require('./envelopes/envelopes');
 const usersRouter = require('./users/users');
 const bodyParser = require('body-parser');
 
+app.use(express.static(pathToSwaggerUI));
 
 //Global middleware
 app.use(cors());
