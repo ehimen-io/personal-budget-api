@@ -1,0 +1,31 @@
+{
+  "name": "personal-budget-api",
+  "version": "1.0.0",
+  "description": "An API that allows clients to create and manage a personal budget, following the _Envelope budgeting principles_.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thelostprofessor/personal-budget-api.git"
+  },
+  "keywords": [],
+  "author": "Owens Ehimen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thelostprofessor/personal-budget-api/issues"
+  },
+  "homepage": "https://github.com/thelostprofessor/personal-budget-api#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "pg": "^8.7.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.6.5",
+    "swagger-ui": "^3.52.1",
+    "swagger-ui-dist": "^3.52.1"
+  }
+}
