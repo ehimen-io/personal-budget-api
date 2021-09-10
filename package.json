@@ -24,6 +24,8 @@
     "express": "^4.17.1",
     "pg": "^8.7.1",
     "pg-hstore": "^2.3.4",
-    "sequelize": "^6.6.5"
+    "sequelize": "^6.6.5",
+    "swagger-ui": "^3.52.1",
+    "swagger-ui-dist": "^3.52.1"
   }
 }
